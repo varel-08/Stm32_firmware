@@ -1,0 +1,23 @@
+name: Build STM32 Firmware
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Install PlatformIO
+        run: pip install platformio
+
+      - name: Build Firmware
+        run: pio run
+
+      - name: Upload Firmware
+        uses: actions/upload-artifact@v2
+        with:
+          name: firmware-bin
+          path: .pio/build/*/firmware.bin
